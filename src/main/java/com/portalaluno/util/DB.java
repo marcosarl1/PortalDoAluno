@@ -33,10 +33,10 @@ public class DB {
         }
     }
     
-    public static void closePreparedStatement(PreparedStatement ps){
-        if (ps != null){
+    public static void closePreparedStatement(PreparedStatement st){
+        if (st != null){
             try {
-                ps.close();
+                st.close();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
