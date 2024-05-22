@@ -1,11 +1,12 @@
 package com.portalaluno.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import javax.swing.JOptionPane;
+
+import java.sql.SQLException;
+
 import com.portalaluno.dao.StudentDAO;
 import com.portalaluno.model.Student;
-import com.portalaluno.util.DB;
-import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 public class AddStudent extends javax.swing.JDialog {
 
