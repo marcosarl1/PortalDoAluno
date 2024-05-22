@@ -8,9 +8,8 @@ import java.sql.SQLException;
 
 public class DB {
 
-    private static Connection conn = null;
-
     public static Connection getConnection() {
+        Connection conn = null;
         if (conn == null) {
             try {
                 String user = System.getenv("DB_USER");
@@ -23,33 +22,4 @@ public class DB {
         return conn;
     }
     
-    public static void closeConnection(){
-        if (conn != null){
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-    
-    public static void closePreparedStatement(PreparedStatement st){
-        if (st != null){
-            try {
-                st.close();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-    
-    public static void closeResultSet(ResultSet rs){
-        if (rs != null){
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
 }
