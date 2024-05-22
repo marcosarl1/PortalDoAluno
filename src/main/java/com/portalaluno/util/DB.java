@@ -1,25 +1,34 @@
 package com.portalaluno.util;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DB {
-
-    public static Connection getConnection() {
-        Connection conn = null;
-        if (conn == null) {
-            try {
-                String user = System.getenv("DB_USER");
-                String password = System.getenv("DB_PASSWORD");
-                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/portaldoaluno", user, password);
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return conn;
-    }
     
+    private static HikariDataSource dataSource;
+    
+    static {
+        try {
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl("jdbc:mysql://localhost:3306/portaldoaluno");
+            config.setUsername(System.getenv("DB_USER"));
+            config.setPassword(System.getenv("DB_PASSWORD"));
+            config.addDataSourceProperty("cachePrepStmts", "true");
+            config.addDataSourceProperty("prepStmtCacheSize", "250");
+            config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+            dataSource = new HikariDataSource(config);
+        } catch (Exception e) {
+        }
+    }
+
+    public static Connection getConnection() throws SQLException{
+        if (dataSource != null) {
+            return dataSource.getConnection();
+        } else{
+            throw new SQLException();
+        }
+    }
 }
