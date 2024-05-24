@@ -1,12 +1,18 @@
 package com.portalaluno.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.portalaluno.dao.StudentDAO;
+import com.portalaluno.model.Student;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Home extends javax.swing.JFrame {
 
     public Home() {
         initComponents();
         init();
+        populateTblStudents();
     }
 
     private void init() {
@@ -40,6 +46,23 @@ public class Home extends javax.swing.JFrame {
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
                 + "Pesquisar");
     }
+    
+    private void populateTblStudents(){
+        StudentDAO studentDAO = new StudentDAO();
+        List<Student> students = studentDAO.selectAllStudents();
+        DefaultTableModel tblModel = (DefaultTableModel) tblStudents.getModel();
+        tblModel.setRowCount(0);
+        tblStudents.setRowSorter(new TableRowSorter(tblModel));
+        for (Student s : students){
+            Object[] obj = new Object[]{
+                false,
+                s.getName(),
+                s.getEmail(),
+                s.getCourse(),
+            };
+            tblModel.addRow(obj);
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -54,7 +77,6 @@ public class Home extends javax.swing.JFrame {
         bttnAdd = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
         lblTitle = new javax.swing.JLabel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,10 +84,7 @@ public class Home extends javax.swing.JFrame {
 
         tblStudents.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "SELECIONAR", "NOME", "E-MAIL", "CURSO"
@@ -144,7 +163,7 @@ public class Home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollTbl, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE))
+                .addComponent(scrollTbl, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -153,17 +172,13 @@ public class Home extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(60, 60, 60)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(60, 60, 60))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(52, 52, 52)
                 .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(60, 60, 60))
         );
@@ -181,7 +196,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton bttnAdd;
     private javax.swing.JButton bttnDelete;
     private javax.swing.JButton bttnEdit;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel panel;

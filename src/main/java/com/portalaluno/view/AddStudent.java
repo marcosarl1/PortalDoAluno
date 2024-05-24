@@ -13,8 +13,6 @@ public class AddStudent extends javax.swing.JDialog {
     public AddStudent(java.awt.Frame parent) {
         super(parent, "Adicionar Estudante", true);
         initComponents();
-        init();
-        setLocationRelativeTo(null);
     }
 
     private void init() {
@@ -31,12 +29,13 @@ public class AddStudent extends javax.swing.JDialog {
         lblEmail = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lblCourse = new javax.swing.JLabel();
-        cmbCourse = new javax.swing.JComboBox<>();
+        cbxCourse = new javax.swing.JComboBox<>();
         btnAdd = new javax.swing.JButton();
         bttnCancel = new javax.swing.JButton();
         lbltitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         lblName.setLabelFor(txtName);
         lblName.setText("Nome:");
@@ -45,11 +44,11 @@ public class AddStudent extends javax.swing.JDialog {
         lblEmail.setLabelFor(txtEmail);
         lblEmail.setText("E-mail");
 
-        lblCourse.setLabelFor(cmbCourse);
+        lblCourse.setLabelFor(cbxCourse);
         lblCourse.setText("Curso");
         lblCourse.setToolTipText("");
 
-        cmbCourse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxCourse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnAdd.setText("Adicionar");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -76,21 +75,22 @@ public class AddStudent extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(50, 50, 50)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblCourse)
                             .addComponent(lblEmail)
                             .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtName)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnAdd)
+                                .addGap(209, 209, 209)
+                                .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addComponent(bttnCancel))
-                            .addComponent(cmbCourse, 0, 384, Short.MAX_VALUE)
+                                .addComponent(bttnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(cbxCourse, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtEmail)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(lbltitle)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,7 +108,7 @@ public class AddStudent extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(lblCourse)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbxCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bttnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -116,7 +116,8 @@ public class AddStudent extends javax.swing.JDialog {
                 .addGap(30, 30, 30))
         );
 
-        setBounds(0, 0, 500, 400);
+        setSize(new java.awt.Dimension(500, 400));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void bttnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnCancelActionPerformed
@@ -126,7 +127,7 @@ public class AddStudent extends javax.swing.JDialog {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String name = txtName.getText();
         String email = txtEmail.getText();
-        String course = (String) cmbCourse.getSelectedItem();
+        String course = cbxCourse.getSelectedItem().toString();
 
         if (name.isEmpty() || email.isEmpty() || course.isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -146,9 +147,11 @@ public class AddStudent extends javax.swing.JDialog {
         try{
             studentDAO.insertStudent(student);
             JOptionPane.showMessageDialog(this, "Aluno adicionado com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            txtName.setText("");
+            txtEmail.setText("");
+            cbxCourse.setSelectedIndex(-1);
             
         } catch (SQLException e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Erro ao adicionar aluno:" + e.getErrorCode(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -157,7 +160,7 @@ public class AddStudent extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton bttnCancel;
-    private javax.swing.JComboBox<String> cmbCourse;
+    private javax.swing.JComboBox<String> cbxCourse;
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblName;

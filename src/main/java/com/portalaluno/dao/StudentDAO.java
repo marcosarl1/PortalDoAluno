@@ -5,12 +5,17 @@ import com.portalaluno.util.DB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentDAO {
 
     private static final String INSERT_STUDENT_SQL
             = "INSERT INTO students (name, email, course )VALUES (?, ?, ?)";
+    private static final String SELECT_ALLSTUDENTS_SQL 
+            = "SELECT * FROM students";
 
     public void insertStudent(Student student) throws SQLException {
         try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(INSERT_STUDENT_SQL)) {
@@ -21,6 +26,26 @@ public class StudentDAO {
                 st.execute();
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        }    
+    }
+    
+    public List<Student> selectAllStudents(){
+        List<Student> students = new ArrayList<>();
+        try (Connection conn = DB.getConnection();
+                PreparedStatement st = conn.prepareStatement(SELECT_ALLSTUDENTS_SQL);
+                ResultSet rs = st.executeQuery()) {
+            while (rs.next()){
+                Student student = new Student();
+                student.setId(rs.getInt("id"));
+                student.setName(rs.getString("name"));
+                student.setEmail(rs.getString("email"));
+                student.setCourse(rs.getString("course"));
+                
+                students.add(student);
+            }
+        } catch (Exception e) {
         }
+        return students;
     }
 }

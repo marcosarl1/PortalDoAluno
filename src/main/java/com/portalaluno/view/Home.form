@@ -29,10 +29,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="filler1" min="-2" max="-2" attributes="0"/>
-                  <Component id="panel" max="32767" attributes="0"/>
-              </Group>
+              <Component id="panel" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -40,9 +37,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-              <Component id="filler1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
               <Component id="panel" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
           </Group>
@@ -92,7 +87,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jSeparator2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="scrollTbl" pref="558" max="32767" attributes="0"/>
+                  <Component id="scrollTbl" pref="559" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -115,7 +110,7 @@
             <Component class="javax.swing.JTable" name="tblStudents">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="4">
+                  <Table columnCount="4" rowCount="0">
                     <Column editable="true" title="SELECIONAR" type="java.lang.Boolean"/>
                     <Column editable="false" title="NOME" type="java.lang.Object"/>
                     <Column editable="false" title="E-MAIL" type="java.lang.Object"/>
@@ -182,7 +177,5 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.Box$Filler" name="filler1">
-    </Component>
   </SubComponents>
 </Form>
