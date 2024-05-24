@@ -1,11 +1,11 @@
 package com.portalaluno.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import com.portalaluno.dao.StudentDAO;
-import com.portalaluno.model.Student;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
+
+import com.portalaluno.dao.StudentDAO;
+import com.portalaluno.model.Student;
 
 public class Home extends javax.swing.JFrame {
 
@@ -52,7 +52,6 @@ public class Home extends javax.swing.JFrame {
         List<Student> students = studentDAO.selectAllStudents();
         DefaultTableModel tblModel = (DefaultTableModel) tblStudents.getModel();
         tblModel.setRowCount(0);
-        tblStudents.setRowSorter(new TableRowSorter(tblModel));
         for (Student s : students){
             Object[] obj = new Object[]{
                 false,
@@ -62,6 +61,10 @@ public class Home extends javax.swing.JFrame {
             };
             tblModel.addRow(obj);
         }
+    }
+    
+    public void refreshTbl(){
+        populateTblStudents();
     }
 
     @SuppressWarnings("unchecked")

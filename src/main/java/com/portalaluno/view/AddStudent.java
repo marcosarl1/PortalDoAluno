@@ -9,9 +9,12 @@ import com.portalaluno.dao.StudentDAO;
 import com.portalaluno.model.Student;
 
 public class AddStudent extends javax.swing.JDialog {
+    
+    private final Home home;
 
-    public AddStudent(java.awt.Frame parent) {
-        super(parent, "Adicionar Estudante", true);
+    public AddStudent(Home home) {
+        super(home, "Adicionar Estudante", true);
+        this.home = home;
         initComponents();
     }
 
@@ -150,7 +153,7 @@ public class AddStudent extends javax.swing.JDialog {
             txtName.setText("");
             txtEmail.setText("");
             cbxCourse.setSelectedIndex(-1);
-            
+            home.refreshTbl();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Erro ao adicionar aluno:" + e.getErrorCode(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
