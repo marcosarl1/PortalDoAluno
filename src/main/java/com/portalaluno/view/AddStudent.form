@@ -41,7 +41,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="bttnCancel" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="cbxCourse" alignment="0" pref="384" max="32767" attributes="0"/>
+                          <Component id="cmbCourse" alignment="0" pref="384" max="32767" attributes="0"/>
                           <Component id="txtEmail" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -70,7 +70,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="lblCourse" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="cbxCourse" min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="cmbCourse" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace pref="63" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="bttnCancel" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -106,13 +106,13 @@
     <Component class="javax.swing.JLabel" name="lblCourse">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="cbxCourse"/>
+          <ComponentRef name="cmbCourse"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Curso"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="cbxCourse">
+    <Component class="javax.swing.JComboBox" name="cmbCourse">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">

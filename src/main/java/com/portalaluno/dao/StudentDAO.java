@@ -18,7 +18,7 @@ public class StudentDAO {
                 st.setString(1, student.getName());
                 st.setString(2, student.getEmail());
                 st.setString(3, student.getCourse());
-                st.executeUpdate();
+                st.execute();
             }
         } catch (SQLException e) {
         }

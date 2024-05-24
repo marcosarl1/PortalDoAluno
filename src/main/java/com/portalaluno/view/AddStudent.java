@@ -31,7 +31,7 @@ public class AddStudent extends javax.swing.JDialog {
         lblEmail = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lblCourse = new javax.swing.JLabel();
-        cbxCourse = new javax.swing.JComboBox<>();
+        cmbCourse = new javax.swing.JComboBox<>();
         btnAdd = new javax.swing.JButton();
         bttnCancel = new javax.swing.JButton();
         lbltitle = new javax.swing.JLabel();
@@ -45,11 +45,11 @@ public class AddStudent extends javax.swing.JDialog {
         lblEmail.setLabelFor(txtEmail);
         lblEmail.setText("E-mail");
 
-        lblCourse.setLabelFor(cbxCourse);
+        lblCourse.setLabelFor(cmbCourse);
         lblCourse.setText("Curso");
         lblCourse.setToolTipText("");
 
-        cbxCourse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCourse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnAdd.setText("Adicionar");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +85,7 @@ public class AddStudent extends javax.swing.JDialog {
                                 .addComponent(btnAdd)
                                 .addGap(18, 18, 18)
                                 .addComponent(bttnCancel))
-                            .addComponent(cbxCourse, 0, 384, Short.MAX_VALUE)
+                            .addComponent(cmbCourse, 0, 384, Short.MAX_VALUE)
                             .addComponent(txtEmail)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
@@ -108,7 +108,7 @@ public class AddStudent extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(lblCourse)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbxCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmbCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bttnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -126,7 +126,7 @@ public class AddStudent extends javax.swing.JDialog {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String name = txtName.getText();
         String email = txtEmail.getText();
-        String course = (String) cbxCourse.getSelectedItem();
+        String course = (String) cmbCourse.getSelectedItem();
 
         if (name.isEmpty() || email.isEmpty() || course.isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -157,7 +157,7 @@ public class AddStudent extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton bttnCancel;
-    private javax.swing.JComboBox<String> cbxCourse;
+    private javax.swing.JComboBox<String> cmbCourse;
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblName;
