@@ -41,8 +41,6 @@ public class Home extends javax.swing.JFrame {
                 + "trackArc:999;"
                 + "trackInsets:3,3,3,3;"
                 + "thumbInsets:3,3,3,3;");
-        txtSearch.putClientProperty(FlatClientProperties.STYLE, ""
-                + "arc:10;");
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
                 + "Pesquisar");
     }
@@ -50,16 +48,11 @@ public class Home extends javax.swing.JFrame {
     private void populateTblStudents(){
         StudentDAO studentDAO = new StudentDAO();
         List<Student> students = studentDAO.selectAllStudents();
+        
         DefaultTableModel tblModel = (DefaultTableModel) tblStudents.getModel();
         tblModel.setRowCount(0);
-        for (Student s : students){
-            Object[] obj = new Object[]{
-                false,
-                s.getName(),
-                s.getEmail(),
-                s.getCourse(),
-            };
-            tblModel.addRow(obj);
+        for (Student student : students){
+            tblModel.addRow(new Object[]{false, student.getId(), student.getName(), student.getEmail(), student.getCourse()});
         }
     }
     
@@ -90,14 +83,14 @@ public class Home extends javax.swing.JFrame {
 
             },
             new String [] {
-                "SELECIONAR", "NOME", "E-MAIL", "CURSO"
+                "SELECIONAR", "ID", "NOME", "E-MAIL", "CURSO"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false
+                true, true, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -111,15 +104,20 @@ public class Home extends javax.swing.JFrame {
         tblStudents.getTableHeader().setReorderingAllowed(false);
         scrollTbl.setViewportView(tblStudents);
         if (tblStudents.getColumnModel().getColumnCount() > 0) {
-            tblStudents.getColumnModel().getColumn(0).setMaxWidth(50);
-            tblStudents.getColumnModel().getColumn(1).setPreferredWidth(150);
-            tblStudents.getColumnModel().getColumn(2).setPreferredWidth(150);
-            tblStudents.getColumnModel().getColumn(3).setPreferredWidth(150);
+            tblStudents.getColumnModel().getColumn(0).setMaxWidth(60);
+            tblStudents.getColumnModel().getColumn(1).setMinWidth(0);
+            tblStudents.getColumnModel().getColumn(1).setPreferredWidth(0);
+            tblStudents.getColumnModel().getColumn(1).setMaxWidth(0);
         }
 
         bttnDelete.setText("Apagar");
 
         bttnEdit.setText("Editar");
+        bttnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnEditActionPerformed(evt);
+            }
+        });
 
         bttnAdd.setText("Adicionar");
         bttnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -134,17 +132,17 @@ public class Home extends javax.swing.JFrame {
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollTbl, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE)
+            .addComponent(scrollTbl, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
             .addComponent(jSeparator2)
             .addGroup(panelLayout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bttnAdd)
+                .addComponent(bttnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(bttnEdit)
+                .addComponent(bttnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(bttnDelete)
+                .addComponent(bttnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9))
             .addGroup(panelLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
@@ -166,7 +164,8 @@ public class Home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollTbl, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE))
+                .addComponent(scrollTbl, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -181,18 +180,23 @@ public class Home extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(52, 52, 52)
+                .addGap(50, 50, 50)
                 .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(60, 60, 60))
+                .addGap(50, 50, 50))
         );
 
-        setBounds(0, 0, 1040, 776);
+        setSize(new java.awt.Dimension(1024, 800));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void bttnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnAddActionPerformed
         AddStudent addStudent = new AddStudent(this);
         addStudent.setVisible(true);
     }//GEN-LAST:event_bttnAddActionPerformed
+
+    private void bttnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnEditActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bttnEditActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

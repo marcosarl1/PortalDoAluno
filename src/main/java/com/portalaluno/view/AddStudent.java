@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import com.portalaluno.dao.StudentDAO;
 import com.portalaluno.model.Student;
+import javax.swing.UIManager;
 
 public class AddStudent extends javax.swing.JDialog {
     
@@ -16,11 +17,13 @@ public class AddStudent extends javax.swing.JDialog {
         super(home, "Adicionar Estudante", true);
         this.home = home;
         initComponents();
+        init();
     }
 
     private void init() {
         lbltitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font: +7");
+        UIManager.put("Component.arrow", "triangle");
     }
 
     @SuppressWarnings("unchecked")
@@ -51,7 +54,7 @@ public class AddStudent extends javax.swing.JDialog {
         lblCourse.setText("Curso");
         lblCourse.setToolTipText("");
 
-        cbxCourse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxCourse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Técnico em Desenvolvimento de Sistemas", "Técnico em Informática para Internet", "Técnico em Informática", "Técnico em Jogos Digitais" }));
 
         btnAdd.setText("Adicionar");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -77,7 +80,7 @@ public class AddStudent extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                        .addGap(44, 44, 44)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblCourse)
                             .addComponent(lblEmail)
@@ -150,10 +153,8 @@ public class AddStudent extends javax.swing.JDialog {
         try{
             studentDAO.insertStudent(student);
             JOptionPane.showMessageDialog(this, "Aluno adicionado com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            txtName.setText("");
-            txtEmail.setText("");
-            cbxCourse.setSelectedIndex(-1);
             home.refreshTbl();
+            dispose();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Erro ao adicionar aluno:" + e.getErrorCode(), "Erro", JOptionPane.ERROR_MESSAGE);
         }

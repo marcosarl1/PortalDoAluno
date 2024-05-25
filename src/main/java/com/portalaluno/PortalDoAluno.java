@@ -1,5 +1,6 @@
 package com.portalaluno;
 
+import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
@@ -13,13 +14,11 @@ import com.portalaluno.view.Home;
 public class PortalDoAluno {
 
     public static void main(String[] args) {
-        FlatMacLightLaf.setup();
         FlatRobotoFont.install();
+        FlatLaf.registerCustomDefaultsSource("theme");
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
-        EventQueue.invokeLater(() -> {
-            Home home = new Home();
-            home.setLocationRelativeTo(null);
-            home.setVisible(true);   
-        });
+        FlatMacLightLaf.setup();
+                
+        EventQueue.invokeLater(() -> new Home().setVisible(true));
     }
 }

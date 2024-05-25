@@ -20,6 +20,14 @@
             <version>2.137</version>
         </dependency>
         
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf-extras</artifactId>
+            <version>3.4.1</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        
         <!--MySQL J Connector -->
         <dependency>
             <groupId>com.mysql</groupId>

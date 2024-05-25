@@ -24,7 +24,7 @@ public class TblHeader implements TableCellRenderer{
     }
     
     protected int getAlignment(int column){
-        if (column == 1){
+        if (column == 0){
             return SwingUtilities.CENTER;
         }
         
