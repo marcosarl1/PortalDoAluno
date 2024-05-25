@@ -6,6 +6,8 @@ import javax.swing.table.DefaultTableModel;
 
 import com.portalaluno.dao.StudentDAO;
 import com.portalaluno.model.Student;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 public class Home extends javax.swing.JFrame {
 
@@ -16,11 +18,11 @@ public class Home extends javax.swing.JFrame {
     }
 
     private void init() {
-        lblTitle.putClientProperty(FlatClientProperties.STYLE, "" +
-                "font:bold +10");
-        
+        lblTitle.putClientProperty(FlatClientProperties.STYLE, ""
+                + "font:bold +10");
+
         panel.putClientProperty(FlatClientProperties.STYLE, ""
-                + "arc:25;" 
+                + "arc:25;"
                 + "background:$Table.background");
         tblStudents.getTableHeader().putClientProperty(FlatClientProperties.STYLE, ""
                 + "height:30;"
@@ -40,23 +42,24 @@ public class Home extends javax.swing.JFrame {
         scrollTbl.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
                 + "trackArc:999;"
                 + "trackInsets:3,3,3,3;"
-                + "thumbInsets:3,3,3,3;");
+                + "thumbInsets:3,3,3,3;"
+                + "background:$Table.background");
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
                 + "Pesquisar");
     }
-    
-    private void populateTblStudents(){
+
+    private void populateTblStudents() {
         StudentDAO studentDAO = new StudentDAO();
         List<Student> students = studentDAO.selectAllStudents();
-        
+
         DefaultTableModel tblModel = (DefaultTableModel) tblStudents.getModel();
         tblModel.setRowCount(0);
-        for (Student student : students){
+        for (Student student : students) {
             tblModel.addRow(new Object[]{false, student.getId(), student.getName(), student.getEmail(), student.getCourse()});
         }
     }
-    
-    public void refreshTbl(){
+
+    public void refreshTbl() {
         populateTblStudents();
     }
 
@@ -111,6 +114,11 @@ public class Home extends javax.swing.JFrame {
         }
 
         bttnDelete.setText("Apagar");
+        bttnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnDeleteActionPerformed(evt);
+            }
+        });
 
         bttnEdit.setText("Editar");
         bttnEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -197,6 +205,36 @@ public class Home extends javax.swing.JFrame {
     private void bttnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnEditActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bttnEditActionPerformed
+
+    private void bttnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnDeleteActionPerformed
+        boolean isSelected = false;
+        for (int i = 0; i < tblStudents.getRowCount(); i++) {
+            if ((boolean) tblStudents.getValueAt(i, 0)) {
+                isSelected = true;
+                break;
+            }
+        }
+        if (!isSelected) {
+            JOptionPane.showMessageDialog(this, "Selecione pelo menos um aluno.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja excluir os alunos selecionados?", "Confirmar exclusão", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            StudentDAO studentDAO = new StudentDAO();
+            for (int i = tblStudents.getRowCount() - 1; i >= 0; i--) {
+                if ((boolean) tblStudents.getValueAt(i, 0)) {
+                    try {
+                        int id = (int) tblStudents.getValueAt(i, 1);
+                        studentDAO.deleteStudent(id);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Erro ao excluir aluno: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+            refreshTbl();
+        }
+    }//GEN-LAST:event_bttnDeleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

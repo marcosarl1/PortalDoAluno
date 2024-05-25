@@ -16,6 +16,8 @@ public class StudentDAO {
             = "INSERT INTO students (name, email, course )VALUES (?, ?, ?)";
     private static final String SELECT_ALLSTUDENTS_SQL 
             = "SELECT * FROM students";
+    private static final String DELETE_STUDENT_SQL
+            = "DELETE FROM students WHERE id = ?";
 
     public void insertStudent(Student student) throws SQLException {
         try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(INSERT_STUDENT_SQL)) {
@@ -47,5 +49,14 @@ public class StudentDAO {
         } catch (Exception e) {
         }
         return students;
+    }
+    
+    public void deleteStudent(int id){
+        try (Connection conn = DB.getConnection();
+                PreparedStatement st = conn.prepareStatement(DELETE_STUDENT_SQL)) {
+            st.setInt(1, id);
+            st.execute();
+        } catch (SQLException e) {
+        }
     }
 }
