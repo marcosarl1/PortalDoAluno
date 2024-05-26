@@ -14,7 +14,7 @@ public class Home extends javax.swing.JFrame {
     public Home() {
         initComponents();
         init();
-        populateTblStudents();
+        loadAllStudents();
     }
 
     private void init() {
@@ -46,21 +46,6 @@ public class Home extends javax.swing.JFrame {
                 + "background:$Table.background");
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
                 + "Pesquisar");
-    }
-
-    private void populateTblStudents() {
-        StudentDAO studentDAO = new StudentDAO();
-        List<Student> students = studentDAO.selectAllStudents();
-
-        DefaultTableModel tblModel = (DefaultTableModel) tblStudents.getModel();
-        tblModel.setRowCount(0);
-        for (Student student : students) {
-            tblModel.addRow(new Object[]{false, student.getId(), student.getName(), student.getEmail(), student.getCourse()});
-        }
-    }
-
-    public void refreshTbl() {
-        populateTblStudents();
     }
 
     @SuppressWarnings("unchecked")
@@ -131,6 +116,12 @@ public class Home extends javax.swing.JFrame {
         bttnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bttnAddActionPerformed(evt);
+            }
+        });
+
+        txtSearch.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtSearchCaretUpdate(evt);
             }
         });
 
@@ -207,34 +198,79 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_bttnEditActionPerformed
 
     private void bttnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnDeleteActionPerformed
-        boolean isSelected = false;
-        for (int i = 0; i < tblStudents.getRowCount(); i++) {
-            if ((boolean) tblStudents.getValueAt(i, 0)) {
-                isSelected = true;
-                break;
-            }
-        }
-        if (!isSelected) {
+        if (!anyStudentSelected()) {
             JOptionPane.showMessageDialog(this, "Selecione pelo menos um aluno.", "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        int confirm = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja excluir os alunos selecionados?", "Confirmar exclusão", JOptionPane.YES_NO_OPTION);
+        int confirm = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja excluir o(s) aluno(s) selecionado(s)?", "Confirmar exclusão", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            StudentDAO studentDAO = new StudentDAO();
-            for (int i = tblStudents.getRowCount() - 1; i >= 0; i--) {
-                if ((boolean) tblStudents.getValueAt(i, 0)) {
-                    try {
-                        int id = (int) tblStudents.getValueAt(i, 1);
-                        studentDAO.deleteStudent(id);
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(this, "Erro ao excluir aluno: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-            refreshTbl();
+            delete();
         }
     }//GEN-LAST:event_bttnDeleteActionPerformed
+
+    private void txtSearchCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchCaretUpdate
+        search();
+    }//GEN-LAST:event_txtSearchCaretUpdate
+
+    private void loadAllStudents() {
+        try {
+            StudentDAO studentDAO = new StudentDAO();
+            List<Student> students = studentDAO.getAllStudents();
+            updateTbl(students);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar estudantes: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void updateTbl(List<Student> students) {
+        DefaultTableModel tblModel = (DefaultTableModel) tblStudents.getModel();
+        tblModel.setRowCount(0);
+        for (Student student : students) {
+            tblModel.addRow(new Object[]{false, student.getId(), student.getName(), student.getEmail(), student.getCourse()});
+        }
+    }
+
+    public void refreshTbl() {
+        loadAllStudents();
+    }
+
+    private boolean anyStudentSelected() {
+        for (int i = 0; i < tblStudents.getRowCount(); i++) {
+            if ((boolean) tblStudents.getValueAt(i, 0)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void delete() {
+        StudentDAO studentDAO = new StudentDAO();
+        for (int i = tblStudents.getRowCount() - 1; i >= 0; i--) {
+            if ((boolean) tblStudents.getValueAt(i, 0)) {
+                try {
+                    int id = (int) tblStudents.getValueAt(i, 1);
+                    studentDAO.deleteStudent(id);
+                    refreshTbl();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao excluir aluno: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    private void search() {
+        String query = txtSearch.getText().trim().toLowerCase();
+        if (query.isEmpty()) {
+            loadAllStudents();
+        } else {
+            try {
+                StudentDAO studentDAO = new StudentDAO();
+                List<Student> students = studentDAO.searchStudents(query);
+                updateTbl(students);
+            } catch (Exception e) {
+            }
+        }
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
