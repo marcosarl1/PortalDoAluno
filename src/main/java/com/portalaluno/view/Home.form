@@ -54,11 +54,11 @@
                   <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                   <Component id="txtSearch" min="-2" pref="250" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="bttnAdd" min="-2" pref="85" max="-2" attributes="0"/>
+                  <Component id="btnAdd" min="-2" pref="85" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="bttnEdit" min="-2" pref="85" max="-2" attributes="0"/>
+                  <Component id="btnEdit" min="-2" pref="85" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="bttnDelete" min="-2" pref="85" max="-2" attributes="0"/>
+                  <Component id="btnDelete" min="-2" pref="85" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
@@ -77,9 +77,9 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="txtSearch" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="bttnAdd" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="bttnEdit" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="bttnDelete" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="btnAdd" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="btnEdit" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="btnDelete" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
@@ -155,28 +155,28 @@
         </Container>
         <Component class="javax.swing.JSeparator" name="jSeparator2">
         </Component>
-        <Component class="javax.swing.JButton" name="bttnDelete">
+        <Component class="javax.swing.JButton" name="btnDelete">
           <Properties>
             <Property name="text" type="java.lang.String" value="Apagar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bttnDeleteActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="bttnEdit">
+        <Component class="javax.swing.JButton" name="btnEdit">
           <Properties>
             <Property name="text" type="java.lang.String" value="Editar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bttnEditActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="bttnAdd">
+        <Component class="javax.swing.JButton" name="btnAdd">
           <Properties>
             <Property name="text" type="java.lang.String" value="Adicionar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bttnAddActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtSearch">

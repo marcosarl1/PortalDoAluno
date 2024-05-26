@@ -20,6 +20,8 @@ public class StudentDAO {
             = "UPDATE students SET name=?, email=?, course=? WHERE id=?";
     private static final String SELECT_ALLSTUDENTS_SQL
             = "SELECT * FROM students";
+    private static final String SELECT_STUDENT_ID_SQL
+            = "SELECT * FROM students WHERE id=?";
     private static final String SEARCH_STUDENT_SQL
             = "SELECT * FROM students WHERE name LIKE ? OR email LIKE ? OR course LIKE ?";
 
@@ -46,7 +48,6 @@ public class StudentDAO {
             st.setString(3, student.getCourse());
             st.setInt(4, student.getId());
             st.execute();
-        } catch (Exception e) {
         }
     }
 
@@ -59,6 +60,17 @@ public class StudentDAO {
             }
         }
         return students;
+    }
+    
+    public Student getStudentById(int id) throws SQLException{
+        try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(SELECT_STUDENT_ID_SQL)) {
+            st.setInt(1, id);
+            try (ResultSet rs = st.executeQuery()){
+                rs.next();
+                Student student = createStudent(rs);
+                return student;
+            }        
+        }
     }
 
     public List<Student> searchStudents(String query) throws SQLException{
@@ -77,7 +89,7 @@ public class StudentDAO {
         } 
         return students;
     }
-
+    
     private Student createStudent(ResultSet rs) throws SQLException {
         Student student = new Student();
         student.setId(rs.getInt("id"));

@@ -150,7 +150,7 @@
             <Font component="lbltitle" property="font" relativeSize="true" size="6"/>
           </FontInfo>
         </Property>
-        <Property name="text" type="java.lang.String" value="Adicionar Estudante"/>
+        <Property name="text" type="java.lang.String" value="Editar Aluno"/>
       </Properties>
     </Component>
   </SubComponents>

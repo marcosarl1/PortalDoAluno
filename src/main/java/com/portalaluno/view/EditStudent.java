@@ -9,15 +9,20 @@ import com.portalaluno.dao.StudentDAO;
 import com.portalaluno.model.Student;
 import javax.swing.UIManager;
 
-public class AddStudent extends javax.swing.JDialog {
+public class EditStudent extends javax.swing.JDialog implements DisplayPopups{
     
     private final Home home;
+    private final StudentDAO studentDAO;
+    private final int id;
 
-    public AddStudent(Home home) {
-        super(home, "Adicionar Estudante", true);
+    public EditStudent(Home home, int id) {
+        super(home, "Editar Aluno", true);
         this.home = home;
+        this.studentDAO = new StudentDAO();
+        this.id = id;
         initComponents();
         init();
+        loadStudent();
     }
 
     private void init() {
@@ -71,7 +76,7 @@ public class AddStudent extends javax.swing.JDialog {
         });
 
         lbltitle.setFont(lbltitle.getFont().deriveFont(lbltitle.getFont().getSize()+6f));
-        lbltitle.setText("Adicionar Estudante");
+        lbltitle.setText("Editar Aluno");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,7 +165,24 @@ public class AddStudent extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
-
+    private void loadStudent(){
+        try {
+            Student student = studentDAO.getStudentById(id);
+            txtName.setText(student.getName());
+            txtEmail.setText(student.getEmail());
+            
+            String studentCourse = student.getCourse();
+            for (int i = 0; i <= cbxCourse.getItemCount(); i++){
+                String course = (String) cbxCourse.getItemAt(i);
+                if (course.equals(studentCourse)) {
+                    cbxCourse.setSelectedIndex(i);
+                    break;
+                }
+            }
+        } catch (SQLException e) {
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton bttnCancel;

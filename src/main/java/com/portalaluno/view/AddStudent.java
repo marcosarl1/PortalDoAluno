@@ -1,7 +1,6 @@
 package com.portalaluno.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import javax.swing.JOptionPane;
 
 import java.sql.SQLException;
 
@@ -9,12 +8,12 @@ import com.portalaluno.dao.StudentDAO;
 import com.portalaluno.model.Student;
 import javax.swing.UIManager;
 
-public class AddStudent extends javax.swing.JDialog {
+public class AddStudent extends javax.swing.JDialog implements DisplayPopups{
     
     private final Home home;
 
     public AddStudent(Home home) {
-        super(home, "Adicionar Estudante", true);
+        super(home, "Adicionar Aluno", true);
         this.home = home;
         initComponents();
         init();
@@ -37,7 +36,7 @@ public class AddStudent extends javax.swing.JDialog {
         lblCourse = new javax.swing.JLabel();
         cbxCourse = new javax.swing.JComboBox<>();
         btnAdd = new javax.swing.JButton();
-        bttnCancel = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
         lbltitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -63,15 +62,15 @@ public class AddStudent extends javax.swing.JDialog {
             }
         });
 
-        bttnCancel.setText("Cancelar");
-        bttnCancel.addActionListener(new java.awt.event.ActionListener() {
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bttnCancelActionPerformed(evt);
+                btnCancelActionPerformed(evt);
             }
         });
 
         lbltitle.setFont(lbltitle.getFont().deriveFont(lbltitle.getFont().getSize()+6f));
-        lbltitle.setText("Adicionar Estudante");
+        lbltitle.setText("Adicionar Aluno");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -90,7 +89,7 @@ public class AddStudent extends javax.swing.JDialog {
                                 .addGap(209, 209, 209)
                                 .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addComponent(bttnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(cbxCourse, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtEmail)))
                     .addGroup(layout.createSequentialGroup()
@@ -117,7 +116,7 @@ public class AddStudent extends javax.swing.JDialog {
                 .addComponent(cbxCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bttnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30))
         );
@@ -126,9 +125,9 @@ public class AddStudent extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bttnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnCancelActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         dispose();
-    }//GEN-LAST:event_bttnCancelActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String name = txtName.getText();
@@ -136,10 +135,7 @@ public class AddStudent extends javax.swing.JDialog {
         String course = cbxCourse.getSelectedItem().toString();
 
         if (name.isEmpty() || email.isEmpty() || course.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "Preencha todos os campos!",
-                    "Aviso",
-                    JOptionPane.WARNING_MESSAGE);
+            displayWarning("Preencha todos os campos!");
             return;
         }
         
@@ -152,18 +148,18 @@ public class AddStudent extends javax.swing.JDialog {
         
         try{
             studentDAO.insertStudent(student);
-            JOptionPane.showMessageDialog(this, "Aluno adicionado com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            displaySuccess("Aluno adicionado com sucesso.");
             home.refreshTbl();
             dispose();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Erro ao adicionar aluno:" + e.getErrorCode(), "Erro", JOptionPane.ERROR_MESSAGE);
+            displayError("Erro ao adicionar aluno:" + e.getErrorCode());
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton bttnCancel;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JComboBox<String> cbxCourse;
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblEmail;
