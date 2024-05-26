@@ -1,4 +1,4 @@
-package com.portalaluno.view;
+package com.portalaluno.view.table;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.util.UIScale;

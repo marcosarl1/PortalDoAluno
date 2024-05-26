@@ -1,4 +1,4 @@
-package com.portalaluno.view;
+package com.portalaluno.view.table;
 
 import java.awt.Component;
 import javax.swing.JLabel;

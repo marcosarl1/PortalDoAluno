@@ -1,5 +1,7 @@
 package com.portalaluno.view;
 
+import com.portalaluno.view.table.TblHeader;
+import com.portalaluno.view.table.ChkboxTbl;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.util.List;
 import java.util.ArrayList;
