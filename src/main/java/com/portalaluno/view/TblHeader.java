@@ -9,11 +9,10 @@ import javax.swing.table.TableCellRenderer;
 public class TblHeader implements TableCellRenderer{
     
     private final TableCellRenderer oldHeaderRenderer;
-    private final TableCellRenderer oldCellRenderer;
 
     public TblHeader(JTable table) {
         this.oldHeaderRenderer = table.getTableHeader().getDefaultRenderer();
-        this.oldCellRenderer = table.getDefaultRenderer(Object.class);
+        table.getDefaultRenderer(Object.class);
     }
 
     @Override

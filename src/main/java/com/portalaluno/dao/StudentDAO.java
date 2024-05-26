@@ -61,19 +61,19 @@ public class StudentDAO {
         }
         return students;
     }
-    
-    public Student getStudentById(int id) throws SQLException{
+
+    public Student getStudentById(int id) throws SQLException {
         try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(SELECT_STUDENT_ID_SQL)) {
             st.setInt(1, id);
-            try (ResultSet rs = st.executeQuery()){
+            try (ResultSet rs = st.executeQuery()) {
                 rs.next();
                 Student student = createStudent(rs);
                 return student;
-            }        
+            }
         }
     }
 
-    public List<Student> searchStudents(String query) throws SQLException{
+    public List<Student> searchStudents(String query) throws SQLException {
         List<Student> students = new ArrayList<>();
         try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(SEARCH_STUDENT_SQL)) {
             String searchQuery = "%" + query.toLowerCase() + "%";
@@ -86,16 +86,11 @@ public class StudentDAO {
                     students.add(student);
                 }
             }
-        } 
+        }
         return students;
     }
-    
+
     private Student createStudent(ResultSet rs) throws SQLException {
-        Student student = new Student();
-        student.setId(rs.getInt("id"));
-        student.setName(rs.getString("name"));
-        student.setEmail(rs.getString("email"));
-        student.setCourse(rs.getString("course"));
-        return student;
+        return new Student(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("course"));
     }
 }

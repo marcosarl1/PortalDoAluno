@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 import com.portalaluno.dao.StudentDAO;
 import com.portalaluno.model.Student;
-import javax.swing.UIManager;
 
 public class AddStudent extends javax.swing.JDialog implements DisplayPopups{
     

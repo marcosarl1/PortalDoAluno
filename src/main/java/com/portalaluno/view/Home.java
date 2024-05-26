@@ -192,14 +192,11 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        AddStudent addStudent = new AddStudent(this);
-        addStudent.setVisible(true);
+        new AddStudent(this).setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-
         edit();
-
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -277,7 +274,6 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
 
         EditStudent editStudent = new EditStudent(this, id);
         editStudent.setVisible(true);
-
     }
 
     private void search() {
