@@ -1,7 +1,6 @@
 package com.portalaluno.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import javax.swing.JOptionPane;
 
 import java.sql.SQLException;
 
@@ -28,7 +27,6 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups{
     private void init() {
         lbltitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font: +7");
-        UIManager.put("Component.arrow", "triangle");
     }
 
     @SuppressWarnings("unchecked")
@@ -141,27 +139,23 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups{
         String course = cbxCourse.getSelectedItem().toString();
 
         if (name.isEmpty() || email.isEmpty() || course.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "Preencha todos os campos!",
-                    "Aviso",
-                    JOptionPane.WARNING_MESSAGE);
+            displayWarning("Preencha todos os campos!");
             return;
         }
         
         Student student = new Student();
+        student.setId(id);
         student.setName(name);
         student.setEmail(email);
         student.setCourse(course);
-        
-        StudentDAO studentDAO = new StudentDAO();
-        
+                
         try{
-            studentDAO.insertStudent(student);
-            JOptionPane.showMessageDialog(this, "Aluno adicionado com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            studentDAO.editStudent(student);
+            displaySuccess("Aluno atualizado com sucesso.");
             home.refreshTbl();
             dispose();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Erro ao adicionar aluno:" + e.getErrorCode(), "Erro", JOptionPane.ERROR_MESSAGE);
+            displayError("Erro ao atualizar aluno:" + e.getErrorCode());
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -172,7 +166,7 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups{
             txtEmail.setText(student.getEmail());
             
             String studentCourse = student.getCourse();
-            for (int i = 0; i <= cbxCourse.getItemCount(); i++){
+            for (int i = 0; i < cbxCourse.getItemCount(); i++){
                 String course = (String) cbxCourse.getItemAt(i);
                 if (course.equals(studentCourse)) {
                     cbxCourse.setSelectedIndex(i);
@@ -180,6 +174,8 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups{
                 }
             }
         } catch (SQLException e) {
+            displayError("Erro ao carregar aluno: " + e.getMessage());
+            dispose();
         }
     }
     

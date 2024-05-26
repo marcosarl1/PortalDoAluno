@@ -22,7 +22,6 @@ public class AddStudent extends javax.swing.JDialog implements DisplayPopups{
     private void init() {
         lbltitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font: +7");
-        UIManager.put("Component.arrow", "triangle");
     }
 
     @SuppressWarnings("unchecked")
