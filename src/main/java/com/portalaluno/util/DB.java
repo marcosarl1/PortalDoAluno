@@ -5,11 +5,11 @@ import java.sql.SQLException;
 
 public class DB {
 
-    private static final Provider PROVIDER = new DS();
+    private static final DS ds = new DS();
     
     private DB(){}
     
     public static Connection getConnection() throws SQLException {
-        return PROVIDER.getDataSource().getConnection();
+        return ds.getDS().getConnection();
     }
 }

@@ -5,13 +5,13 @@ public class Student {
     private int id;
     private String name;
     private String email;
-    private String course;
+    private Course courseid;
 
-    public Student(int id, String name, String email, String course) {
+    public Student(int id, String name, String email, Course courseid) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.course = course;
+        this.courseid = courseid;
     }
 
     public Student(){
@@ -41,11 +41,11 @@ public class Student {
         this.email = email;
     }
 
-    public String getCourse() {
-        return course;
+    public Course getCourseId() {
+        return courseid;
     }
 
-    public void setCourse(String course) {
-        this.course = course;
+    public void setCourseId(Course courseid) {
+        this.courseid = courseid;
     }
 }

@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 
 import com.portalaluno.dao.StudentDAO;
+import com.portalaluno.model.Course;
 import com.portalaluno.model.Student;
 
 public class Home extends javax.swing.JFrame implements DisplayPopups {
@@ -68,6 +69,7 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
         lblTitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Portal do Aluno");
 
         scrollTbl.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
@@ -104,6 +106,7 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
         }
 
         btnDelete.setText("Apagar");
+        btnDelete.setToolTipText("Apagar aluno.");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -111,6 +114,7 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
         });
 
         btnEdit.setText("Editar");
+        btnEdit.setToolTipText("Editar aluno.");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
@@ -118,6 +122,7 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
         });
 
         btnAdd.setText("Adicionar");
+        btnAdd.setToolTipText("Adicionar novo aluno.");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
@@ -222,7 +227,7 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
         DefaultTableModel tblModel = (DefaultTableModel) tblStudents.getModel();
         tblModel.setRowCount(0);
         for (Student student : students) {
-            tblModel.addRow(new Object[]{false, student.getId(), student.getName(), student.getEmail(), student.getCourse()});
+            tblModel.addRow(new Object[]{false, student.getId(), student.getName(), student.getEmail(), student.getCourseId().getName()});
         }
     }
 

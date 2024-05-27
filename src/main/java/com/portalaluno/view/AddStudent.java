@@ -1,26 +1,37 @@
 package com.portalaluno.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.portalaluno.dao.CourseDAO;
 
 import java.sql.SQLException;
 
 import com.portalaluno.dao.StudentDAO;
-import com.portalaluno.model.Student;
+import com.portalaluno.model.Course;
 
-public class AddStudent extends javax.swing.JDialog implements DisplayPopups{
-    
+import com.portalaluno.model.Student;
+import java.util.List;
+
+public class AddStudent extends javax.swing.JDialog implements DisplayPopups {
+
     private final Home home;
+    private final CourseDAO courseDAO;
 
     public AddStudent(Home home) {
         super(home, "Adicionar Aluno", true);
         this.home = home;
+        this.courseDAO = new CourseDAO();
         initComponents();
         init();
+        loadCourse();
     }
 
     private void init() {
         lbltitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font: +7");
+        txtName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
+                + "Digite o nome completo");
+        txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
+                + "Digite o endereço de e-mail");
     }
 
     @SuppressWarnings("unchecked")
@@ -32,7 +43,7 @@ public class AddStudent extends javax.swing.JDialog implements DisplayPopups{
         lblEmail = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lblCourse = new javax.swing.JLabel();
-        cbxCourse = new javax.swing.JComboBox<>();
+        cbxCourse = new javax.swing.JComboBox();
         btnAdd = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         lbltitle = new javax.swing.JLabel();
@@ -50,8 +61,6 @@ public class AddStudent extends javax.swing.JDialog implements DisplayPopups{
         lblCourse.setLabelFor(cbxCourse);
         lblCourse.setText("Curso");
         lblCourse.setToolTipText("");
-
-        cbxCourse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Técnico em Desenvolvimento de Sistemas", "Técnico em Informática para Internet", "Técnico em Informática", "Técnico em Jogos Digitais" }));
 
         btnAdd.setText("Adicionar");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -130,21 +139,26 @@ public class AddStudent extends javax.swing.JDialog implements DisplayPopups{
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String name = txtName.getText();
         String email = txtEmail.getText();
-        String course = cbxCourse.getSelectedItem().toString();
+        String courseName = cbxCourse.getSelectedItem().toString();
 
-        if (name.isEmpty() || email.isEmpty() || course.isEmpty()) {
+        if (name.isEmpty() || email.isEmpty() || courseName.isEmpty()) {
             displayWarning("Preencha todos os campos!");
             return;
         }
-        
+
         Student student = new Student();
         student.setName(name);
         student.setEmail(email);
-        student.setCourse(course);
-        
+
+        int courseId;
+        try {
+            
+        } catch (Exception e) {
+        }
+
         StudentDAO studentDAO = new StudentDAO();
-        
-        try{
+
+        try {
             studentDAO.insertStudent(student);
             displaySuccess("Aluno adicionado com sucesso.");
             home.refreshTbl();
@@ -154,11 +168,22 @@ public class AddStudent extends javax.swing.JDialog implements DisplayPopups{
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void loadCourse() {
+        try {
+            List<Course> courseNames = courseDAO.getAllCourses();
+            for (Course c : courseNames){
+                cbxCourse.addItem(c);
+            }
+        } catch (SQLException ex) {
+            displayError("Erro ao carregar cursos: " + ex.getMessage());
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
-    private javax.swing.JComboBox<String> cbxCourse;
+    private javax.swing.JComboBox cbxCourse;
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblName;

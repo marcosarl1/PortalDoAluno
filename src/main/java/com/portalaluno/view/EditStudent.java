@@ -20,12 +20,16 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups{
         this.id = id;
         initComponents();
         init();
-        loadStudent();
+//        loadStudent();
     }
 
     private void init() {
         lbltitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font: +7");
+        txtName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
+                + "Digite o nome completo");
+        txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, ""
+                + "Digite o endereço de e-mail");
     }
 
     @SuppressWarnings("unchecked")
@@ -146,7 +150,7 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups{
         student.setId(id);
         student.setName(name);
         student.setEmail(email);
-        student.setCourse(course);
+        //student.setCourse(course);
                 
         try{
             studentDAO.editStudent(student);
@@ -158,25 +162,25 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups{
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
-    private void loadStudent(){
-        try {
-            Student student = studentDAO.getStudentById(id);
-            txtName.setText(student.getName());
-            txtEmail.setText(student.getEmail());
-            
-            String studentCourse = student.getCourse();
-            for (int i = 0; i < cbxCourse.getItemCount(); i++){
-                String course = (String) cbxCourse.getItemAt(i);
-                if (course.equals(studentCourse)) {
-                    cbxCourse.setSelectedIndex(i);
-                    break;
-                }
-            }
-        } catch (SQLException e) {
-            displayError("Erro ao carregar aluno: " + e.getMessage());
-            dispose();
-        }
-    }
+//    private void loadStudent(){
+//        try {
+//            Student student = studentDAO.getStudentById(id);
+//            txtName.setText(student.getName());
+//            txtEmail.setText(student.getEmail());
+//            
+//            String studentCourse = student.getCourse();
+//            for (int i = 0; i < cbxCourse.getItemCount(); i++){
+//                String course = (String) cbxCourse.getItemAt(i);
+//                if (course.equals(studentCourse)) {
+//                    cbxCourse.setSelectedIndex(i);
+//                    break;
+//                }
+//            }
+//        } catch (SQLException e) {
+//            displayError("Erro ao carregar aluno: " + e.getMessage());
+//            dispose();
+//        }
+//    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
