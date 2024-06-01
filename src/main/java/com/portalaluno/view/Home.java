@@ -9,7 +9,6 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 
 import com.portalaluno.dao.StudentDAO;
-import com.portalaluno.model.Course;
 import com.portalaluno.model.Student;
 
 public class Home extends javax.swing.JFrame implements DisplayPopups {
@@ -146,12 +145,12 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
             .addGroup(panelLayout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 328, Short.MAX_VALUE)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9))
             .addGroup(panelLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
@@ -173,7 +172,7 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollTbl, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
+                .addComponent(scrollTbl, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 
@@ -222,7 +221,7 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
             displayError("Erro ao carregar estudantes: " + e.getMessage());
         }
     }
-
+    
     private void updateTbl(List<Student> students) {
         DefaultTableModel tblModel = (DefaultTableModel) tblStudents.getModel();
         tblModel.setRowCount(0);
@@ -280,15 +279,17 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
         int id = (int) tblStudents.getValueAt(selected, 1);
 
         EditStudent editStudent = new EditStudent(this, id);
+        editStudent.loadStudent(id);
         editStudent.setVisible(true);
     }
 
     private void search() {
-        String query = txtSearch.getText().trim().toLowerCase();
+        String query = txtSearch.getText().trim();
         try {
             List<Student> students = studentDAO.searchStudents(query);
             updateTbl(students);
         } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

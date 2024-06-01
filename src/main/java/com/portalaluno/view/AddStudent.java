@@ -14,12 +14,10 @@ import java.util.List;
 public class AddStudent extends javax.swing.JDialog implements DisplayPopups {
 
     private final Home home;
-    private final CourseDAO courseDAO;
 
     public AddStudent(Home home) {
         super(home, "Adicionar Aluno", true);
         this.home = home;
-        this.courseDAO = new CourseDAO();
         initComponents();
         init();
         loadCourse();
@@ -139,9 +137,9 @@ public class AddStudent extends javax.swing.JDialog implements DisplayPopups {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String name = txtName.getText();
         String email = txtEmail.getText();
-        String courseName = cbxCourse.getSelectedItem().toString();
+        Course courseid = (Course) cbxCourse.getSelectedItem();
 
-        if (name.isEmpty() || email.isEmpty() || courseName.isEmpty()) {
+        if (name.isEmpty() || email.isEmpty() || courseid == null) {
             displayWarning("Preencha todos os campos!");
             return;
         }
@@ -149,12 +147,7 @@ public class AddStudent extends javax.swing.JDialog implements DisplayPopups {
         Student student = new Student();
         student.setName(name);
         student.setEmail(email);
-
-        int courseId;
-        try {
-            
-        } catch (Exception e) {
-        }
+        student.setCourseId(courseid);
 
         StudentDAO studentDAO = new StudentDAO();
 
@@ -169,8 +162,10 @@ public class AddStudent extends javax.swing.JDialog implements DisplayPopups {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void loadCourse() {
+        CourseDAO courseDAO = new CourseDAO();
         try {
             List<Course> courseNames = courseDAO.getAllCourses();
+            cbxCourse.removeAllItems();
             for (Course c : courseNames){
                 cbxCourse.addItem(c);
             }

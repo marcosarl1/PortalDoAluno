@@ -14,17 +14,17 @@ import java.util.List;
 public class StudentDAO {
 
     private static final String INSERT_STUDENT_SQL
-            = "INSERT INTO students (name, email, courseid) VALUES (?, ?, ?)";
+            = "INSERT INTO student (name, email, courseid) VALUES (?, ?, ?)";
     private static final String DELETE_STUDENT_SQL
-            = "DELETE FROM students WHERE id = ?";
+            = "DELETE FROM student WHERE student_id = ?";
     private static final String EDIT_STUDENT_SQL
-            = "UPDATE students SET name=?, email=?, courseid=? WHERE id=?";
+            = "UPDATE student SET name=?, email=?, courseid=? WHERE student_id=?";
     private static final String SELECT_ALLSTUDENTS_SQL
-            = "SELECT * FROM students";
+            = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.course_id ORDER BY student.student_id;";
     private static final String SELECT_STUDENT_ID_SQL
-            = "SELECT * FROM students WHERE id=?";
+            = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.course_id WHERE student_id=? ORDER BY student.student_id;";
     private static final String SEARCH_STUDENT_SQL
-            = "SELECT * FROM students WHERE name LIKE ? OR email LIKE ?";
+            = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.course_id WHERE student.name LIKE ? OR student.email LIKE ? OR c.course_name LIKE ? ORDER BY student.student_id";
 
     public void insertStudent(Student student) throws SQLException {
         try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(INSERT_STUDENT_SQL)) {
@@ -76,10 +76,11 @@ public class StudentDAO {
 
     public List<Student> searchStudents(String query) throws SQLException {
         List<Student> students = new ArrayList<>();
+        String searchQuery = "%" + query + "%";
         try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(SEARCH_STUDENT_SQL)) {
-            String searchQuery = "%" + query + "%";
             st.setString(1, searchQuery);
             st.setString(2, searchQuery);
+            st.setString(3, searchQuery);
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
                     Student student = createStudent(rs);
@@ -91,24 +92,15 @@ public class StudentDAO {
     }
 
     private Student createStudent(ResultSet rs) throws SQLException {
-        int courseId = rs.getInt("courseid");
-        Course course = getCourseById(courseId);
-        return new Student(rs.getInt("id"), rs.getString("name"), rs.getString("email"), course);
-    }
-    
-    private Course getCourseById(int id) throws SQLException {
-        String sql = "SELECT * FROM course WHERE id=?";
-        try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(sql)) {
-            st.setInt(1, id);
-            try (ResultSet rs = st.executeQuery()) {
-                if (rs.next()) {
-                    Course course = new Course();
-                    course.setId(rs.getInt("id"));
-                    course.setName(rs.getString("name"));
-                    return course;
-                }
-            }
-        }
-        return null;
+        int id = rs.getInt("student_id");
+        String name = rs.getString("name");
+        String email = rs.getString("email");
+        int courseid = rs.getInt("courseid");
+        String courseName = rs.getString("course_name");
+
+        Course course = new Course(courseid, courseName);
+        Student student = new Student(id, name, email, course);
+
+        return student;
     }
 }

@@ -19,8 +19,8 @@ public class CourseDAO {
         try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(SELECT_ALL_COURSES_SQL); ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
                 Course course = new Course();
-                course.setId(rs.getInt("id"));
-                course.setName(rs.getString("name"));
+                course.setId(rs.getInt("course_id"));
+                course.setName(rs.getString("course_name"));
                 courses.add(course);
             }
         }

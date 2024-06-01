@@ -33,4 +33,18 @@ public class Course {
     public String toString() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Course c = (Course) obj;
+        if (this.id == c.getId()) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
+    }
 }

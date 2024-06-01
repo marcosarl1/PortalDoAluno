@@ -1,26 +1,31 @@
 package com.portalaluno.view;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.portalaluno.dao.CourseDAO;
 
 import java.sql.SQLException;
 
 import com.portalaluno.dao.StudentDAO;
+import com.portalaluno.model.Course;
 import com.portalaluno.model.Student;
+import java.util.List;
 
-public class EditStudent extends javax.swing.JDialog implements DisplayPopups{
-    
+public class EditStudent extends javax.swing.JDialog implements DisplayPopups {
+
     private final Home home;
     private final StudentDAO studentDAO;
+    private final CourseDAO courseDAO;
     private final int id;
 
     public EditStudent(Home home, int id) {
         super(home, "Editar Aluno", true);
         this.home = home;
         this.studentDAO = new StudentDAO();
+        this.courseDAO = new CourseDAO();
         this.id = id;
         initComponents();
         init();
-//        loadStudent();
+        loadCourse();
     }
 
     private void init() {
@@ -41,7 +46,7 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups{
         lblEmail = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lblCourse = new javax.swing.JLabel();
-        cbxCourse = new javax.swing.JComboBox<>();
+        cbxCourse = new javax.swing.JComboBox();
         btnAdd = new javax.swing.JButton();
         bttnCancel = new javax.swing.JButton();
         lbltitle = new javax.swing.JLabel();
@@ -59,8 +64,6 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups{
         lblCourse.setLabelFor(cbxCourse);
         lblCourse.setText("Curso");
         lblCourse.setToolTipText("");
-
-        cbxCourse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Técnico em Desenvolvimento de Sistemas", "Técnico em Informática para Internet", "Técnico em Informática", "Técnico em Jogos Digitais" }));
 
         btnAdd.setText("Adicionar");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -139,20 +142,20 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups{
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String name = txtName.getText();
         String email = txtEmail.getText();
-        String course = cbxCourse.getSelectedItem().toString();
+        Course courseid = (Course) cbxCourse.getSelectedItem();
 
-        if (name.isEmpty() || email.isEmpty() || course.isEmpty()) {
+        if (name.isEmpty() || email.isEmpty() || courseid == null) {
             displayWarning("Preencha todos os campos!");
             return;
         }
-        
+
         Student student = new Student();
         student.setId(id);
         student.setName(name);
         student.setEmail(email);
-        //student.setCourse(course);
-                
-        try{
+        student.setCourseId(courseid);
+
+        try {
             studentDAO.editStudent(student);
             displaySuccess("Aluno atualizado com sucesso.");
             home.refreshTbl();
@@ -162,30 +165,35 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups{
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
-//    private void loadStudent(){
-//        try {
-//            Student student = studentDAO.getStudentById(id);
-//            txtName.setText(student.getName());
-//            txtEmail.setText(student.getEmail());
-//            
-//            String studentCourse = student.getCourse();
-//            for (int i = 0; i < cbxCourse.getItemCount(); i++){
-//                String course = (String) cbxCourse.getItemAt(i);
-//                if (course.equals(studentCourse)) {
-//                    cbxCourse.setSelectedIndex(i);
-//                    break;
-//                }
-//            }
-//        } catch (SQLException e) {
-//            displayError("Erro ao carregar aluno: " + e.getMessage());
-//            dispose();
-//        }
-//    }
+    protected void loadStudent(int id){
+        try {
+            Student student = studentDAO.getStudentById(id);
+            txtName.setText(student.getName());
+            txtEmail.setText(student.getEmail());
+            cbxCourse.setSelectedItem(student.getCourseId());
+            
+        } catch (SQLException e) {
+            displayError("Erro ao carregar aluno: " + e.getMessage());
+            dispose();
+        }
+    }
     
+    private void loadCourse() {
+        try {
+            List<Course> courseNames = courseDAO.getAllCourses();
+            cbxCourse.removeAllItems();
+            for (Course c : courseNames) {
+                cbxCourse.addItem(c);
+            }
+        } catch (SQLException ex) {
+            displayError("Erro ao carregar cursos: " + ex.getMessage());
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton bttnCancel;
-    private javax.swing.JComboBox<String> cbxCourse;
+    private javax.swing.JComboBox cbxCourse;
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblName;

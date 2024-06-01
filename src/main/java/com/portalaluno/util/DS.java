@@ -2,10 +2,13 @@ package com.portalaluno.util;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
 
 public class DS{
+    
+    private static final HikariDataSource ds;
 
-    protected HikariDataSource getDS() {
+    static {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl("jdbc:mysql://localhost:3306/portaldoaluno");
         config.setUsername(System.getenv("DB_USER"));
@@ -13,6 +16,11 @@ public class DS{
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        return new HikariDataSource(config);
+        
+        ds = new HikariDataSource(config);
+    }
+    
+    protected static DataSource getDS(){
+        return ds;
     }
 }
