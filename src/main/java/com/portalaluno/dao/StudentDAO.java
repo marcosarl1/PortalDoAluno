@@ -79,8 +79,10 @@ public class StudentDAO {
     }
 
     public Student getStudentById(int id) throws SQLException {
-        try (EntityManager em = JPAUtil.getEntityManager()) {
-            return em.find(Student.class, id);
+        try {
+            return entityManager.find(Student.class, id);
+        } catch (Exception e) {
+            return null;
         }
     }
 
