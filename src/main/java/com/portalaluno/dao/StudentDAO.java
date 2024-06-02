@@ -20,8 +20,6 @@ public class StudentDAO {
 
     private static final String DELETE_STUDENT_SQL
             = "DELETE FROM student WHERE id = ?";
-    private static final String EDIT_STUDENT_SQL
-            = "UPDATE student SET name=?, email=?, courseid=? WHERE id=?";
     private static final String SELECT_ALLSTUDENTS_SQL
             = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.id ORDER BY student.id;";
     private static final String SEARCH_STUDENT_SQL
@@ -43,9 +41,16 @@ public class StudentDAO {
     }
 
     public void deleteStudent(int id) throws SQLException {
-        try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(DELETE_STUDENT_SQL)) {
-            st.setInt(1, id);
-            st.execute();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            Student student = entityManager.find(Student.class, id);
+            transaction.begin();
+            entityManager.remove(student);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
         }
     }
 
