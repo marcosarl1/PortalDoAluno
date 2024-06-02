@@ -221,7 +221,7 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
             displayError("Erro ao carregar estudantes: " + e.getMessage());
         }
     }
-    
+
     private void updateTbl(List<Student> students) {
         DefaultTableModel tblModel = (DefaultTableModel) tblStudents.getModel();
         tblModel.setRowCount(0);
@@ -239,10 +239,10 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
         for (int i = 0; i < tblStudents.getRowCount(); i++) {
             if ((boolean) tblStudents.getValueAt(i, 0)) {
                 indexes.add(i);
-            }
-        }
+                    }
+                }
         return indexes.stream().mapToInt(i -> i).toArray();
-    }
+            }
 
     private void delete() {
         int[] selectedIndex = getSelectedStudentIndex();
@@ -256,7 +256,7 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
                 for (int index : selectedIndex) {
                     int id = (int) tblStudents.getValueAt(index, 1);
                     studentDAO.deleteStudent(id);
-                }
+    }
             } catch (SQLException e) {
                 displayError("Erro ao excluir aluno: " + e.getMessage());
             }
@@ -273,7 +273,7 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
         if (selectedIndex.length != 1) {
             displayWarning("Selecione apenas um aluno para editar.");
             return;
-        }
+    }
 
         int selected = selectedIndex[0];
         int id = (int) tblStudents.getValueAt(selected, 1);
@@ -289,7 +289,6 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
             List<Student> students = studentDAO.searchStudents(query);
             updateTbl(students);
         } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 

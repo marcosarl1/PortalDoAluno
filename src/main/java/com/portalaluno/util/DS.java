@@ -10,7 +10,7 @@ public class DS{
 
     static {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://localhost:3306/portaldoaluno");
+        config.setJdbcUrl("jdbc:mysql://localhost/portaldoaluno");
         config.setUsername(System.getenv("DB_USER"));
         config.setPassword(System.getenv("DB_PASSWORD"));
         config.addDataSourceProperty("cachePrepStmts", "true");

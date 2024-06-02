@@ -1,7 +1,15 @@
 package com.portalaluno.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Course {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
 
@@ -37,14 +45,6 @@ public class Course {
     @Override
     public boolean equals(Object obj) {
         Course c = (Course) obj;
-        if (this.id == c.getId()) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(id);
+        return this.id == c.getId();
     }
 }

@@ -3,6 +3,9 @@ package com.portalaluno.dao;
 import com.portalaluno.model.Course;
 import com.portalaluno.model.Student;
 import com.portalaluno.util.DB;
+import com.portalaluno.util.JPAUtil;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,25 +16,21 @@ import java.util.List;
 
 public class StudentDAO {
 
-    private static final String INSERT_STUDENT_SQL
-            = "INSERT INTO student (name, email, courseid) VALUES (?, ?, ?)";
     private static final String DELETE_STUDENT_SQL
-            = "DELETE FROM student WHERE student_id = ?";
+            = "DELETE FROM student WHERE id = ?";
     private static final String EDIT_STUDENT_SQL
-            = "UPDATE student SET name=?, email=?, courseid=? WHERE student_id=?";
+            = "UPDATE student SET name=?, email=?, courseid=? WHERE id=?";
     private static final String SELECT_ALLSTUDENTS_SQL
-            = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.course_id ORDER BY student.student_id;";
-    private static final String SELECT_STUDENT_ID_SQL
-            = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.course_id WHERE student_id=? ORDER BY student.student_id;";
+            = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.id ORDER BY student.id;";
     private static final String SEARCH_STUDENT_SQL
-            = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.course_id WHERE student.name LIKE ? OR student.email LIKE ? OR c.course_name LIKE ? ORDER BY student.student_id";
+            = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.id WHERE student.name LIKE ? OR student.email LIKE ? OR c.course_name LIKE ? ORDER BY student.id";
 
     public void insertStudent(Student student) throws SQLException {
-        try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(INSERT_STUDENT_SQL)) {
-            st.setString(1, student.getName());
-            st.setString(2, student.getEmail());
-            st.setInt(3, student.getCourseId().getId());
-            st.execute();
+        try (EntityManager entityManager = JPAUtil.getEntityManager()) {
+            EntityTransaction transaction = entityManager.getTransaction();
+            transaction.begin();
+            entityManager.persist(student);
+            transaction.commit();
         }
     }
 
@@ -64,13 +63,8 @@ public class StudentDAO {
     }
 
     public Student getStudentById(int id) throws SQLException {
-        try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(SELECT_STUDENT_ID_SQL)) {
-            st.setInt(1, id);
-            try (ResultSet rs = st.executeQuery()) {
-                rs.next();
-                Student student = createStudent(rs);
-                return student;
-            }
+        try (EntityManager em = JPAUtil.getEntityManager()) {
+            return em.find(Student.class, id);
         }
     }
 
@@ -92,15 +86,14 @@ public class StudentDAO {
     }
 
     private Student createStudent(ResultSet rs) throws SQLException {
-        int id = rs.getInt("student_id");
+        int id = rs.getInt("id");
         String name = rs.getString("name");
         String email = rs.getString("email");
         int courseid = rs.getInt("courseid");
         String courseName = rs.getString("course_name");
 
         Course course = new Course(courseid, courseName);
-        Student student = new Student(id, name, email, course);
 
-        return student;
+        return new Student(id, name, email, course);
     }
 }
