@@ -16,6 +16,8 @@ import java.util.List;
 
 public class StudentDAO {
 
+    private final EntityManager entityManager = JPAUtil.getEntityManager();
+
     private static final String DELETE_STUDENT_SQL
             = "DELETE FROM student WHERE id = ?";
     private static final String EDIT_STUDENT_SQL
@@ -26,11 +28,17 @@ public class StudentDAO {
             = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.id WHERE student.name LIKE ? OR student.email LIKE ? OR c.course_name LIKE ? ORDER BY student.id";
 
     public void insertStudent(Student student) throws SQLException {
-        try (EntityManager entityManager = JPAUtil.getEntityManager()) {
-            EntityTransaction transaction = entityManager.getTransaction();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
             transaction.begin();
             entityManager.persist(student);
             transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+        } finally {
+            //JPAUtil.closeEntityManager();
         }
     }
 
@@ -42,12 +50,15 @@ public class StudentDAO {
     }
 
     public void editStudent(Student student) throws SQLException {
-        try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(EDIT_STUDENT_SQL)) {
-            st.setString(1, student.getName());
-            st.setString(2, student.getEmail());
-            st.setInt(3, student.getCourseId().getId());
-            st.setInt(4, student.getId());
-            st.execute();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(student);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
         }
     }
 
