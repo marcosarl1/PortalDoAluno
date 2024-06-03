@@ -7,16 +7,24 @@ import jakarta.persistence.Persistence;
 public class JPAUtil {
 
     private static final String PERSISTENCE_UNIT = "PortalPU";
-    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+    private static EntityManagerFactory entityManagerFactory;
+    private static EntityManager entityManager;
 
     public static EntityManager getEntityManager() {
-        return entityManagerFactory.createEntityManager();
+        if (entityManagerFactory == null || !entityManagerFactory.isOpen()) {
+            entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+            
+            if (entityManager == null || !entityManager.isOpen()) {
+                entityManager = entityManagerFactory.createEntityManager();
+            }
+        }
+        return entityManager;
     }
 
     public static void closeEntityManager() {
-        if (entityManagerFactory != null && entityManagerFactory.isOpen()) {
+        if (entityManager != null && entityManager.isOpen()) {
+            entityManager.close();
             entityManagerFactory.close();
-            getEntityManager().close();
         }
     }
 }

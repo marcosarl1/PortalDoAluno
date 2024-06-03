@@ -5,7 +5,6 @@ import com.portalaluno.model.Student;
 import com.portalaluno.util.DB;
 import com.portalaluno.util.JPAUtil;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,54 +15,48 @@ import java.util.List;
 
 public class StudentDAO {
 
-    private final EntityManager entityManager = JPAUtil.getEntityManager();
-
-    private static final String DELETE_STUDENT_SQL
-            = "DELETE FROM student WHERE id = ?";
     private static final String SELECT_ALLSTUDENTS_SQL
             = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.id ORDER BY student.id;";
     private static final String SEARCH_STUDENT_SQL
             = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.id WHERE student.name LIKE ? OR student.email LIKE ? OR c.course_name LIKE ? ORDER BY student.id";
 
     public void insertStudent(Student student) throws SQLException {
-        EntityTransaction transaction = entityManager.getTransaction();
+        EntityManager entityManager = JPAUtil.getEntityManager();
         try {
-            transaction.begin();
+            entityManager.getTransaction().begin();
             entityManager.persist(student);
-            transaction.commit();
+            entityManager.getTransaction().commit();
         } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
+            entityManager.getTransaction().rollback();
         } finally {
-            //JPAUtil.closeEntityManager();
+            JPAUtil.closeEntityManager();
         }
     }
 
     public void deleteStudent(int id) throws SQLException {
-        EntityTransaction transaction = entityManager.getTransaction();
+        EntityManager entityManager = JPAUtil.getEntityManager();
+        Student student = entityManager.find(Student.class, id);
         try {
-            Student student = entityManager.find(Student.class, id);
-            transaction.begin();
+            entityManager.getTransaction().begin();
             entityManager.remove(student);
-            transaction.commit();
+            entityManager.getTransaction().commit();
         } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
+            entityManager.getTransaction().rollback();
+        } finally {
+            JPAUtil.closeEntityManager();
         }
     }
 
     public void editStudent(Student student) throws SQLException {
-        EntityTransaction transaction = entityManager.getTransaction();
+        EntityManager entityManager = JPAUtil.getEntityManager();
         try {
-            transaction.begin();
+            entityManager.getTransaction().begin();
             entityManager.merge(student);
-            transaction.commit();
+            entityManager.getTransaction().commit();
         } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
+            entityManager.getTransaction().rollback();
+        } finally {
+            JPAUtil.closeEntityManager();
         }
     }
 
@@ -79,10 +72,13 @@ public class StudentDAO {
     }
 
     public Student getStudentById(int id) throws SQLException {
+        EntityManager entityManager = JPAUtil.getEntityManager();
         try {
             return entityManager.find(Student.class, id);
         } catch (Exception e) {
             return null;
+        } finally {
+            JPAUtil.closeEntityManager();
         }
     }
 
