@@ -160,8 +160,8 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups {
             displaySuccess("Aluno atualizado com sucesso.");
             home.refreshTbl();
             dispose();
-        } catch (SQLException e) {
-            displayError("Erro ao atualizar aluno:" + e.getErrorCode());
+        } catch (Exception e) {
+            displayError("Erro ao atualizar aluno:" + e.getMessage());
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -172,7 +172,7 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups {
             txtEmail.setText(student.getEmail());
             cbxCourse.setSelectedItem(student.getCourseId());
             
-        } catch (SQLException e) {
+        } catch (Exception e) {
             displayError("Erro ao carregar aluno: " + e.getMessage());
             dispose();
         }

@@ -14,13 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAO {
-
+    
     private static final String SELECT_ALLSTUDENTS_SQL
             = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.id ORDER BY student.id;";
     private static final String SEARCH_STUDENT_SQL
             = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.id WHERE student.name LIKE ? OR student.email LIKE ? OR c.course_name LIKE ? ORDER BY student.id";
 
-    public void insertStudent(Student student) throws SQLException {
+    public void insertStudent(Student student) {
         EntityManager entityManager = JPAUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -33,7 +33,7 @@ public class StudentDAO {
         }
     }
 
-    public void deleteStudent(int id) throws SQLException {
+    public void deleteStudent(int id) {
         EntityManager entityManager = JPAUtil.getEntityManager();
         Student student = entityManager.find(Student.class, id);
         try {
@@ -47,7 +47,7 @@ public class StudentDAO {
         }
     }
 
-    public void editStudent(Student student) throws SQLException {
+    public void editStudent(Student student) {
         EntityManager entityManager = JPAUtil.getEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -71,7 +71,7 @@ public class StudentDAO {
         return students;
     }
 
-    public Student getStudentById(int id) throws SQLException {
+    public Student getStudentById(int id) {
         EntityManager entityManager = JPAUtil.getEntityManager();
         try {
             return entityManager.find(Student.class, id);

@@ -257,7 +257,7 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
                     int id = (int) tblStudents.getValueAt(index, 1);
                     studentDAO.deleteStudent(id);
     }
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 displayError("Erro ao excluir aluno: " + e.getMessage());
             }
             refreshTbl();

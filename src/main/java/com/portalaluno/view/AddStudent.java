@@ -156,8 +156,8 @@ public class AddStudent extends javax.swing.JDialog implements DisplayPopups {
             displaySuccess("Aluno adicionado com sucesso.");
             home.refreshTbl();
             dispose();
-        } catch (SQLException e) {
-            displayError("Erro ao adicionar aluno:" + e.getErrorCode());
+        } catch (Exception e) {
+            displayError("Erro ao adicionar aluno:" + e.getMessage());
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
