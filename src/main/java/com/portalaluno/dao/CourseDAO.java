@@ -9,15 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDAO {
+    
+    private static EntityManager entityManager = null;
 
     public List<Course> getAllCourses() {
-        EntityManager entityManager = JPAUtil.getEntityManager();
         List<Course> courses = new ArrayList<>();
         try {
+            entityManager = JPAUtil.getEntityManager();
             Query query = entityManager.createQuery("select c from Course c");
             courses = query.getResultList();
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
             throw e;
         } finally {
             JPAUtil.closeEntityManager();
