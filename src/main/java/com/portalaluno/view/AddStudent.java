@@ -168,7 +168,6 @@ public class AddStudent extends javax.swing.JDialog implements DisplayPopups {
             List<Course> courseNames = courseDAO.getAllCourses();
             for (Course c : courseNames){
                 cbxCourse.addItem(c);
-                System.out.println(c.getName());
             }
         } catch (Exception e) {
             displayError("Erro ao carregar cursos: " + e.getMessage());

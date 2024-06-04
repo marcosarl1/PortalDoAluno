@@ -180,11 +180,10 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups {
     
     private void loadCourse() {
         try {
-            List<Course> courseNames = courseDAO.getAllCourses();
             cbxCourse.removeAllItems();
-            for (Course c : courseNames) {
+            List<Course> courseNames = courseDAO.getAllCourses();
+            for (Course c : courseNames){
                 cbxCourse.addItem(c);
-                System.out.println(c.getName());
             }
         } catch (Exception e) {
             displayError("Erro ao carregar cursos: " + e.getMessage());
