@@ -5,6 +5,7 @@ import com.portalaluno.model.Student;
 import com.portalaluno.util.DB;
 import com.portalaluno.util.JPAUtil;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,8 +16,6 @@ import java.util.List;
 
 public class StudentDAO {
     
-    private static final String SELECT_ALLSTUDENTS_SQL
-            = "SELECT student.*, c.name FROM student INNER JOIN course c on student.courseid = c.id ORDER BY student.id;";
     private static final String SEARCH_STUDENT_SQL
             = "SELECT student.*, c.name FROM student INNER JOIN course c on student.courseid = c.id WHERE student.name LIKE ? OR student.email LIKE ? OR c.name LIKE ? ORDER BY student.id";
 
@@ -60,13 +59,16 @@ public class StudentDAO {
         }
     }
 
-    public List<Student> getAllStudents() throws SQLException {
+    public List<Student> getAllStudents() {
+        EntityManager entityManager = JPAUtil.getEntityManager();
         List<Student> students = new ArrayList<>();
-        try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(SELECT_ALLSTUDENTS_SQL); ResultSet rs = st.executeQuery()) {
-            while (rs.next()) {
-                Student student = createStudent(rs);
-                students.add(student);
-            }
+        try {
+            Query query = entityManager.createQuery("SELECT s FROM Student s");
+            students = query.getResultList();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+        } finally {
+            JPAUtil.closeEntityManager();
         }
         return students;
     }

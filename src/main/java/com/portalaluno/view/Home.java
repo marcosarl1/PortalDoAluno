@@ -217,7 +217,7 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
         try {
             List<Student> students = studentDAO.getAllStudents();
             updateTbl(students);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             displayError("Erro ao carregar estudantes: " + e.getMessage());
         }
     }
