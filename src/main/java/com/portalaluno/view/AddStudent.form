@@ -119,7 +119,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Course&gt;"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="btnAdd">

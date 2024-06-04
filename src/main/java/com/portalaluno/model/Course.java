@@ -11,6 +11,7 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
     private String name;
 
     public Course(int id, String name) {
@@ -39,7 +40,7 @@ public class Course {
 
     @Override
     public String toString() {
-        return name;
+        return this.name;
     }
 
     @Override

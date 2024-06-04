@@ -41,7 +41,7 @@ public class AddStudent extends javax.swing.JDialog implements DisplayPopups {
         lblEmail = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lblCourse = new javax.swing.JLabel();
-        cbxCourse = new javax.swing.JComboBox();
+        cbxCourse = new javax.swing.JComboBox<>();
         btnAdd = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         lbltitle = new javax.swing.JLabel();
@@ -164,13 +164,14 @@ public class AddStudent extends javax.swing.JDialog implements DisplayPopups {
     private void loadCourse() {
         CourseDAO courseDAO = new CourseDAO();
         try {
-            List<Course> courseNames = courseDAO.getAllCourses();
             cbxCourse.removeAllItems();
+            List<Course> courseNames = courseDAO.getAllCourses();
             for (Course c : courseNames){
                 cbxCourse.addItem(c);
+                System.out.println(c.getName());
             }
-        } catch (SQLException ex) {
-            displayError("Erro ao carregar cursos: " + ex.getMessage());
+        } catch (Exception e) {
+            displayError("Erro ao carregar cursos: " + e.getMessage());
         }
     }
 
@@ -178,7 +179,7 @@ public class AddStudent extends javax.swing.JDialog implements DisplayPopups {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
-    private javax.swing.JComboBox cbxCourse;
+    private javax.swing.JComboBox<Course> cbxCourse;
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblName;

@@ -184,9 +184,10 @@ public class EditStudent extends javax.swing.JDialog implements DisplayPopups {
             cbxCourse.removeAllItems();
             for (Course c : courseNames) {
                 cbxCourse.addItem(c);
+                System.out.println(c.getName());
             }
-        } catch (SQLException ex) {
-            displayError("Erro ao carregar cursos: " + ex.getMessage());
+        } catch (Exception e) {
+            displayError("Erro ao carregar cursos: " + e.getMessage());
         }
     }
 

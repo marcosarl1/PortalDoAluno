@@ -16,9 +16,9 @@ import java.util.List;
 public class StudentDAO {
     
     private static final String SELECT_ALLSTUDENTS_SQL
-            = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.id ORDER BY student.id;";
+            = "SELECT student.*, c.name FROM student INNER JOIN course c on student.courseid = c.id ORDER BY student.id;";
     private static final String SEARCH_STUDENT_SQL
-            = "SELECT student.*, c.course_name FROM student INNER JOIN course c on student.courseid = c.id WHERE student.name LIKE ? OR student.email LIKE ? OR c.course_name LIKE ? ORDER BY student.id";
+            = "SELECT student.*, c.name FROM student INNER JOIN course c on student.courseid = c.id WHERE student.name LIKE ? OR student.email LIKE ? OR c.name LIKE ? ORDER BY student.id";
 
     public void insertStudent(Student student) {
         EntityManager entityManager = JPAUtil.getEntityManager();
@@ -104,7 +104,7 @@ public class StudentDAO {
         String name = rs.getString("name");
         String email = rs.getString("email");
         int courseid = rs.getInt("courseid");
-        String courseName = rs.getString("course_name");
+        String courseName = rs.getString("c.name");
 
         Course course = new Course(courseid, courseName);
 
