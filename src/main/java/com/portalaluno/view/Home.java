@@ -215,7 +215,7 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
 
     private void loadAllStudents() {
         try {
-            List<Student> students = studentDAO.getAllStudents();
+            List<Student> students = studentDAO.getStudent("");
             updateTbl(students);
         } catch (Exception e) {
             displayError("Erro ao carregar estudantes: " + e.getMessage());
@@ -284,11 +284,11 @@ public class Home extends javax.swing.JFrame implements DisplayPopups {
     }
 
     private void search() {
-        String query = txtSearch.getText().trim();
+        String filter = txtSearch.getText().trim();
         try {
-            List<Student> students = studentDAO.searchStudents(query);
+            List<Student> students = studentDAO.getStudent(filter);
             updateTbl(students);
-        } catch (SQLException e) {
+        } catch (Exception e) {
         }
     }
 

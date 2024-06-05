@@ -5,7 +5,7 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <datasource-mapping>
-          <factory-entry name="PortalPU" value="5963cd02-b929-40fc-a508-2a047e6b4315" />
+          <factory-entry name="PortalPU" value="74e9a5ca-6187-4139-b879-916649b0b5f5" />
         </datasource-mapping>
         <naming-strategy-map>
           <unit-entry name="PortalPU" />

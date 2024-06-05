@@ -1,24 +1,14 @@
 package com.portalaluno.dao;
 
-import com.portalaluno.model.Course;
 import com.portalaluno.model.Student;
-import com.portalaluno.util.DB;
 import com.portalaluno.util.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAO {
     
-    private static final String SEARCH_STUDENT_SQL
-            = "SELECT student.*, c.name FROM student INNER JOIN course c on student.courseid = c.id WHERE student.name LIKE ? OR student.email LIKE ? OR c.name LIKE ? ORDER BY student.id";
-
     public void insertStudent(Student student) {
         EntityManager entityManager = JPAUtil.getEntityManager();
         try {
@@ -59,18 +49,24 @@ public class StudentDAO {
         }
     }
 
-    public List<Student> getAllStudents() {
+    public List<Student> getStudent(String filter) {
         EntityManager entityManager = JPAUtil.getEntityManager();
-        List<Student> students = new ArrayList<>();
         try {
-            Query query = entityManager.createQuery("SELECT s FROM Student s");
-            students = query.getResultList();
+            String stringQuery = "Select s FROM Student s " +
+                    "WHERE (:name is null OR s.name LIKE :name) " +
+                    "OR (:email is null OR s.email LIKE :email) " +
+                    "OR (:course is null OR s.courseid.name LIKE :course)";
+            Query query = entityManager.createQuery(stringQuery);
+            Object value = filter.isEmpty() ? null : "%" + filter + "%";
+            query.setParameter("name", value);
+            query.setParameter("email", value);
+            query.setParameter("course", value);
+            return query.getResultList();
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            return null;
         } finally {
             JPAUtil.closeEntityManager();
         }
-        return students;
     }
 
     public Student getStudentById(int id) {
@@ -82,34 +78,5 @@ public class StudentDAO {
         } finally {
             JPAUtil.closeEntityManager();
         }
-    }
-
-    public List<Student> searchStudents(String query) throws SQLException {
-        List<Student> students = new ArrayList<>();
-        String searchQuery = "%" + query + "%";
-        try (Connection conn = DB.getConnection(); PreparedStatement st = conn.prepareStatement(SEARCH_STUDENT_SQL)) {
-            st.setString(1, searchQuery);
-            st.setString(2, searchQuery);
-            st.setString(3, searchQuery);
-            try (ResultSet rs = st.executeQuery()) {
-                while (rs.next()) {
-                    Student student = createStudent(rs);
-                    students.add(student);
-                }
-            }
-        }
-        return students;
-    }
-
-    private Student createStudent(ResultSet rs) throws SQLException {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String email = rs.getString("email");
-        int courseid = rs.getInt("courseid");
-        String courseName = rs.getString("c.name");
-
-        Course course = new Course(courseid, courseName);
-
-        return new Student(id, name, email, course);
     }
 }
